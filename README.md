@@ -7,14 +7,14 @@ Project Structure
 /controllers/        → Route handlers (refresh, image, etc.)  
 /routes/             → Express route definitions  
 /cache/              → Stores generated summary.png  
-server.js            → Entry point  
+index.js            → Entry point  
 
 Setup
 
 1. Clone & Install
 
 git clone https://github.com/queentifee/stage-2.git
-cd countries-api
+cd stage-2
 npm install
 
 
@@ -47,7 +47,7 @@ CREATE TABLE countries (
 
 4.  Run
 
-npm run dev
+node index.js
 
  Endpoints
 Method	Endpoint	Description
