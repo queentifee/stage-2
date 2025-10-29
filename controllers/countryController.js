@@ -18,23 +18,23 @@ exports.refreshCountries = async (req, res) => {
     ]);
 
     const countries = countriesRes.data;
-    const rates = ratesRes.data.rates; // ✅ fix: exchange rates are under "rates"
+    const rates = ratesRes.data.rates; 
     const now = new Date();
 
     const connection = await pool.getConnection();
     await connection.beginTransaction();
 
-    for (const country of countries) {
-      const currency_code = country.currencies?.[0]?.code || null;
-      const exchange_rate = currency_code ? rates[currency_code] || null : null;
+   for (const country of countries) {
+  const currency_code = country.currencies?.[0]?.code || null;
+  const exchange_rate = currency_code ? rates[currency_code] || null : null;
 
-      let estimated_gdp = null;
-      if (!currency_code) estimated_gdp = 0;
-      else if (!exchange_rate) estimated_gdp = null;
-      else {
-        const randomFactor = Math.floor(Math.random() * 1001) + 1000; // random 1000–2000
-        estimated_gdp = (country.population * randomFactor) / exchange_rate;
-      }
+  let estimated_gdp = null;
+  if (!currency_code) estimated_gdp = 0;
+  else if (!exchange_rate) estimated_gdp = null;
+  else {
+    const randomFactor = Math.floor(Math.random() * 1001) + 1000;
+    estimated_gdp = (country.population * randomFactor) / exchange_rate;
+  }
 
       if (!country.name || !country.population) {
   console.warn(`Skipping invalid country: missing name or population`);

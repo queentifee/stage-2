@@ -1,4 +1,4 @@
-const pool = require('./config/db');
+const pool = require('./config/db'); // adjust path
 require('dotenv').config();
 
 async function setupDatabase() {
@@ -6,10 +6,15 @@ async function setupDatabase() {
     const connection = await pool.getConnection();
     console.log('✅ Connected to MySQL');
 
+    // Drop the old table
+    await connection.query('DROP TABLE IF EXISTS countries');
+    console.log('🗑️  Old table dropped');
+
     await connection.query(`
-      CREATE TABLE IF NOT EXISTS countries (
+      CREATE TABLE countries (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) UNIQUE,
+        name VARCHAR(255),
+        name_normalized VARCHAR(255) UNIQUE,
         capital VARCHAR(255),
         region VARCHAR(100),
         population BIGINT,
@@ -21,7 +26,7 @@ async function setupDatabase() {
       )
     `);
 
-    console.log('✅ Countries table created successfully!');
+    console.log('✅ Countries table created with name_normalized!');
     
     connection.release();
     process.exit(0);

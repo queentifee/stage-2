@@ -37,8 +37,10 @@ exports.generateSummaryImage = async () => {
   // Top 5 GDP
   ctx.fillText("Top 5 Countries by Estimated GDP:", 50, 200);
   countries.forEach((c, i) => {
-    ctx.fillText(`${i + 1}. ${c.name} - ${c.estimated_gdp?.toFixed(2) || 0}`, 80, 240 + i * 40);
-  });
+  const gdp = parseFloat(c.estimated_gdp);
+  const displayGDP = isNaN(gdp) ? "N/A" : gdp.toFixed(2);
+  ctx.fillText(`${i + 1}. ${c.name} - ${displayGDP}`, 80, 240 + i * 40);
+});
 
   const cacheDir = path.join(process.cwd(), "cache");
   if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
